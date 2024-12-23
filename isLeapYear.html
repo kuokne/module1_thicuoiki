@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Days in Month/Year</title>
+    <style>
+        input, button {
+            margin: 5px 0;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h2>Kiểm tra tháng bạn nhập vào có bao nhiêu ngày</h2>
+<label for="monthYear">Nhập tháng trước ngày sau (MM/YYYY): </label><br>
+<input type="text" id="monthYear" placeholder="MM/YYYY">
+<button onclick="calculateDays()">Calculate</button>
+<p id="result"></p>
+
+<script>
+    function isLeapYear(year) {
+        return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+    }
+
+    function calculateDays() {
+        const input = document.getElementById("monthYear").value;
+
+        const slashIndex = input.indexOf("/");
+        if (slashIndex === -1 || slashIndex === 0 || slashIndex === input.length - 1) {
+            document.getElementById("result").innerHTML = "Định dạng sai, hãy nhập cả dấu '/' để kiểm tra ngày tháng ";
+            return;
+        }
+
+        // Kiểm tra đâu là năm đâu là tháng
+        const month = parseInt(input.substring(0, slashIndex));
+        const year = parseInt(input.substring(slashIndex + 1)); // sau dấu xuộc
+
+        if (month < 1 || month > 12 || isNaN(year)) {
+            document.getElementById("result").innerHTML = "Giá trị nhập không hợp lệ. Hãy nhập tháng từ 1 đến 12";
+            return;
+        }
+
+        // Số ngày trong năm
+        const daysInMonth = [31, (isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        const days = daysInMonth[month - 1];
+
+        document.getElementById("result").innerHTML = `Tháng ${month} năm ${year} có ${days} ngày`;
+    }
+</script>
+
+</body>
+</html>
